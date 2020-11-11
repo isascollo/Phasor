@@ -15,7 +15,7 @@ def valid_input(list):
         float(list[2])
     except (ValueError, IndexError):
         return False
-    if list[0] != 'p' or list[0] != 'r':
+    if list[0] != 'p' and list[0] != 'r':
         return False
     if list[0] == 'p' and float(list[1]) < 0:
         print("mod must be positive value")
@@ -50,9 +50,11 @@ while True:
             real = float(args[1])
             complex = float(args[2])
             if real != 0:
-                angle = math.atan(complex/real)*180/math.pi*sign(real)
+                angle = math.atan(complex/real)*180/math.pi
             else:
                 angle = 90*sign(complex)
+            if real < 0:
+                angle -= 180;
             mod = math.sqrt(real*real + complex*complex)
         angle = constrain(angle)
         if complex >= 0:
