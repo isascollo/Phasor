@@ -1,5 +1,6 @@
 # Isa Scollo 2020
-import math
+import math as m
+import cmath as c
 
 
 def print_instructions():
@@ -23,14 +24,10 @@ def valid_input(list):
     return True
 
 
-sign = lambda x: x and (1, -1)[x < 0]
-constrain = lambda x: x-360*sign(x) if abs(x) > 180 else x
-
-
 print_instructions()
 while True:
-    real = 0
-    complex = 0
+    Re = 0
+    Im = 0
     mod = 0
     angle = 0
     inp = input(">> ")
@@ -44,23 +41,17 @@ while True:
         if args[0] == 'p':
             mod = float(args[1])
             angle = float(args[2])
-            real = mod*math.cos(angle*math.pi/180)
-            complex = mod*math.sin(angle*math.pi/180)
+            Re = c.rect(mod,m.radians(angle)).real
+            Im = c.rect(mod,m.radians(angle)).imag
         if args[0] == 'r':
-            real = float(args[1])
-            complex = float(args[2])
-            if real != 0:
-                angle = math.atan(complex/real)*180/math.pi
-            else:
-                angle = 90*sign(complex)
-            if real < 0:
-                angle -= 180;
-            mod = math.sqrt(real*real + complex*complex)
-        angle = constrain(angle)
-        if complex >= 0:
-            print(f"rec {round(real,4)} + {round(complex,4)}j")
+            Re = float(args[1])
+            Im = float(args[2])
+            mod = c.polar(complex(Re,Im))[0]
+            angle = m.degrees(c.polar(complex(Re,Im))[1])
+        if Im >= 0:
+            print(f"rec {round(Re,4)} + {round(Im,4)}j")
         else:
-            print(f"rec {round(real,4)} - {round(complex,4)*-1}j")
+            print(f"rec {round(Re,4)} - {round(Im,4)*-1}j")
         print(f"pol {round(mod,4)} ∠{round(angle,4)}°\n")
     else:
         print("Invalid input, try again.\n")
